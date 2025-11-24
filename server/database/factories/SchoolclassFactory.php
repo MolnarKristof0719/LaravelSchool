@@ -17,7 +17,7 @@ class SchoolclassFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            
         ];
     }
 }

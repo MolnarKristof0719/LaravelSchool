@@ -9,10 +9,5 @@ class Sport extends Model
 {
     /** @use HasFactory<\Database\Factories\SportFactory> */
     use HasFactory;
-    protected $fillable = ['sportNev'];
-
-    public function students()
-    {
-        return $this->belongsToMany(Student::class, 'playingsports', 'sportId', 'studentId');
-    }
+   
 }

@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Helpers\CsvReader;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Schoolclass;
 
 class SchoolclassSeeder extends Seeder
 {

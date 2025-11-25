@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
+
+use App\Helpers\CsvReader;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use App\Models\Sport;
 class SportSeeder extends Seeder
 {
     /**
@@ -16,6 +18,6 @@ class SportSeeder extends Seeder
         $delimiter = ';';
 
         $data = CsvReader::csvToArray($fileName, $delimiter);
-        Sports::factory()->createMany($data);
+        Sport::factory()->createMany($data);
     }
 }

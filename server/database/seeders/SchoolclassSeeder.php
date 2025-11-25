@@ -12,6 +12,10 @@ class SchoolclassSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $fileName = 'csv/schoolclasses.csv';
+        $delimiter = ';';
+
+        $data = CsvReader::csvToArray($fileName, $delimiter);
+        Schoolclass::factory()->createMany($data);
     }
 }

@@ -21,7 +21,6 @@ class StudentSeeder extends Seeder
         $numberOfClasses = Schoolclass::count();
 
         $numberOfStudent = $avgClassSize * $numberOfClasses;
-
         Student::factory()->count($numberOfStudent);
     }
 }

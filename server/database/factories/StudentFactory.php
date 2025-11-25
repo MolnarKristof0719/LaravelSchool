@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Schoolclass;
 use Illuminate\Database\Eloquent\Factories\Factory;
+
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Student>
@@ -14,23 +16,25 @@ class StudentFactory extends Factory
         // Manuális beállítás az app config felülírására
         return \Faker\Factory::create('hu_HU');
     }
-    function kalkulalOsztöndijTömbbel(float $atlag): int
-    {
-        $osztondijTabla = [
-            2.0 => 8000,
-            2.5 => 16000,
-            3.5 => 25000,
-            4.5 => 42000,
-            // Az 59000-et a ciklus utáni alapértelmezett érték garantálja.
-        ];
+    function calculateScholarship(float $gpa): int
+{
+    $table = [
+        '2.0' => 8000,
+        '2.5' => 16000,
+        '3.5' => 25000,
+        '4.5' => 42000
+    ];
 
-        foreach ($osztondijTabla as $hatar => $osszeg) {
-            if ($atlag < $hatar) {
-                return $osszeg;
-            }
+
+    foreach ($table as $border => $total) {
+        if ($gpa < $border) {
+            return $gpa;
         }
-        return 59000;
     }
+
+    // Ha minden határt átlépett → max összeg
+    return 59000;
+}
     /**
      * Define the model's default state.
      *
@@ -54,12 +58,12 @@ class StudentFactory extends Factory
         $address = $this->faker->streetAddress();
 
         //randomclass
-        $randomClass = Schoolclass::InRandomOrder()->first();
+        $randomClass = Schoolclass::inRandomOrder()->first();
         $schoolclassId = $randomClass->id;
         // birth data
         $birthPlace = $this->faker->city();
 
-        $grade = substr($randomClass->className, 0);
+        $grade = substr($randomClass->className, 0,1);
         $ageMin = $grade + 5;
         $ageMax = $grade + 6;
         $birthDate = $this->faker->dateTimeBetween('-' . ($ageMax) . ' years', '-' . $ageMin . ' years');
@@ -73,7 +77,7 @@ class StudentFactory extends Factory
         // GPA / scholarship
         $gpa = $this->faker->randomFloat(2, 1, 5); // 1.00 – 5.00
 
-        $scholarship = $this->kalkulalOsztöndijTömbbel($gpa);
+        $scholarship = $this->calculateScholarship($gpa);
 
         return [
             'studentName' => $studentName,

@@ -18,12 +18,24 @@ class PlayingsportFactory extends Factory
      */
     public function definition(): array
     {
-        $randomStudentId = Student::inRandomOrder()->first()->id;
-        $randomSportsId = Sport::inRandomOrder()->first()->id;
+        do {
+            $randomStudentId = Student::inRandomOrder()->first()->id ?? null;
+            $randomSportId = Sport::inRandomOrder()->first()->id ?? null;
+ 
+            // Védelmi mechanizmus: ha nincsenek adatok a forrástáblákban, kilépünk.
+            if (is_null($randomStudentId) || is_null($randomSportId)) {
+                break;
+            }
+ 
+            // 2. Egyediség ellenőrzése a Playsports táblában
+            $exists = playingsports::where('studentId', $randomStudentId)
+                ->where('sportId', $randomSportId)
+                ->exists();
+        } while ($exists);
 
         return [
             'studentId' => $randomStudentId,
-            'sportId' => $randomSportsId,
+            'sportId' => $randomSportId,
 
         ];
     }

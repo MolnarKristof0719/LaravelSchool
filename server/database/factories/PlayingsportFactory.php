@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Sport;
+use App\Models\Student;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,8 +18,13 @@ class PlayingsportFactory extends Factory
      */
     public function definition(): array
     {
+        $randomStudentId = Student::inRandomOrder()->first()->id;
+        $randomSportsId = Sport::inRandomOrder()->first()->id;
+
         return [
-            //
+            'studentId' => $randomStudentId,
+            'sportId' => $randomSportsId,
+
         ];
     }
 }
